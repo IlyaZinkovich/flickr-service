@@ -1,0 +1,18 @@
+spring:
+  main:
+    web-environment: false
+
+flickr:
+  apiKey: 7702646706f40b6c735fec76b0dd1cb5
+  secret: 5a0bf605f48d7d6c
+  photosPerPage: 1000
+
+google:
+  apiKey: AIzaSyBAHZ3gLdePXcY1GbHpQM3PEfAGwLB3lyA
+
+zeromq:
+  address: tcp://*:5563
+  ioThreads: 1
+  topic:
+    envelope:
+      findRoutes: FIND_ROUTES_TASK
