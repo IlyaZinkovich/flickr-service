@@ -31,7 +31,7 @@ public class FlickrService {
         return strings.stream()
                 .map(trip -> new GeoTaggedTrip(convert(geocodingClient.findGeoObject(trip.getOrigin())),
                         trip.getDate()))
-                .filter(trip -> trip.getOrigin().isKnown())
+                .filter(trip -> trip.getOrigin().known())
                 .filter(trip -> !samePlace(destination, trip.getOrigin()))
                 .map(trip -> new Route(trip.getOrigin(), destination, trip.getDate(), "Flickr"))
                 .collect(toList());
