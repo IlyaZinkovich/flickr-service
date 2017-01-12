@@ -1,14 +1,15 @@
-package com.routes.flickr.subscriber;
+package com.routes.flickr.tasks;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.routes.admin.api.FindRoutesTask;
 import com.routes.admin.api.Route;
+import com.routes.admin.api.SaveRoutesTask;
 import com.routes.flickr.service.FlickrService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import static org.zeromq.ZMQ.Socket;
 public class TaskSubscriber {
 
     @Autowired
+    @Qualifier("findRoutesTaskSubscriber")
     private Socket subscriber;
 
     @Autowired
@@ -26,6 +28,9 @@ public class TaskSubscriber {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private TaskPublisher publisher;
 
     @PostConstruct
     public void subscribe() {
@@ -37,9 +42,10 @@ public class TaskSubscriber {
             String taskType = subscriber.recvStr();
             String taskContents = subscriber.recvStr();
             FindRoutesTask findRoutesTask = convert(taskContents);
-            List<Route> routes = flickrService.getRoutesFromFlickr(findRoutesTask.getStartDate(),
-                    findRoutesTask.getEndDate(),
+            List<Route> routes = flickrService.getRoutesFromFlickr(findRoutesTask.getDate(),
+                    findRoutesTask.getDate().plusDays(1),
                     findRoutesTask.getDestination());
+            routes.stream().map(SaveRoutesTask::new).forEach(publisher::publishSaveRouteTask);
         }
     }
 

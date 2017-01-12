@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ServiceConfig {
 
-    @Value("${google.apiKey")
+    @Value("${google.apiKey}")
     private String googleApiKey;
 
     @Bean

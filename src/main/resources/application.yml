@@ -8,11 +8,15 @@ flickr:
   photosPerPage: 1000
 
 google:
-  apiKey: AIzaSyBAHZ3gLdePXcY1GbHpQM3PEfAGwLB3lyA
+  apiKey: AIzaSyBHDy8UYJvgOcYEYuVrr5YiHjdpqEYmK8w
 
 zeromq:
-  address: tcp://*:5563
-  ioThreads: 1
   topic:
-    envelope:
-      findRoutes: FIND_ROUTES_TASK
+    findRoutes:
+      envelope: FIND_ROUTES_TASK
+      address: tcp://*:5563
+      ioThreads: 1
+    saveRoutes:
+      envelope: SAVE_ROUTES_TASK
+      address: tcp://*:5564
+      ioThreads: 1
