@@ -87,7 +87,12 @@ public class FlickrClient {
         try {
             return flickr.getPeopleInterface().getInfo(userId);
         } catch (FlickrException e) {
-            throw new RuntimeException(e);
+            return new User() {
+                @Override
+                public String getLocation() {
+                    return null;
+                }
+            };
         }
     }
 }
