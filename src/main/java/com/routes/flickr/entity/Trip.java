@@ -1,4 +1,4 @@
-package com.routes.flickr.model;
+package com.routes.flickr.entity;
 
 import java.time.LocalDate;
 

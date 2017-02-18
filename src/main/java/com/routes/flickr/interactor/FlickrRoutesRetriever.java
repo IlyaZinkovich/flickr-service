@@ -1,10 +1,11 @@
-package com.routes.flickr.service;
+package com.routes.flickr.interactor;
 
-import com.routes.admin.api.Place;
-import com.routes.admin.api.Route;
 import com.routes.flickr.client.FlickrClient;
-import com.routes.flickr.model.GeoTaggedTrip;
-import com.routes.flickr.model.Trip;
+import com.routes.flickr.entity.GeoTaggedTrip;
+import com.routes.flickr.entity.Place;
+import com.routes.flickr.entity.Route;
+import com.routes.flickr.entity.Trip;
+import com.routes.geolocation.client.GoogleGeocodingClient;
 import com.routes.geolocation.model.GeoObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,18 +16,19 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
-public class FlickrService {
+public class FlickrRoutesRetriever {
 
     @Autowired
     private FlickrClient flickrClient;
 
     @Autowired
-    private GeocodingService geocodingService;
+    private GoogleGeocodingClient geoCodingClient;
 
-    public List<Route> getRoutesFromFlickr(LocalDate startDate, LocalDate endDate, Place destination) {
+    public List<Route> getRoutesFromFlickr(LocalDate startDate, LocalDate endDate, String destinationName) {
+        Place destination = convert(geoCodingClient.findGeoObject(destinationName));
         List<Trip> strings = flickrClient.searchTrips(startDate, endDate, destination);
         return strings.stream()
-                .map(trip -> new GeoTaggedTrip(convert(geocodingService.findGeoObject(trip.getOrigin())),
+                .map(trip -> new GeoTaggedTrip(convert(geoCodingClient.findGeoObject(trip.getOrigin())),
                         trip.getDate()))
                 .filter(trip -> trip.getOrigin().known())
                 .filter(trip -> !samePlace(destination, trip.getOrigin()))

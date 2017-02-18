@@ -1,6 +1,4 @@
-package com.routes.flickr.model;
-
-import com.routes.admin.api.Place;
+package com.routes.flickr.entity;
 
 import java.time.LocalDate;
 

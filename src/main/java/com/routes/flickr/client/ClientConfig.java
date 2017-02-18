@@ -2,6 +2,7 @@ package com.routes.flickr.client;
 
 import com.flickr4java.flickr.Flickr;
 import com.flickr4java.flickr.REST;
+import com.routes.geolocation.client.GoogleGeocodingClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +16,16 @@ public class ClientConfig {
     @Value("${flickr.secret}")
     private String secret;
 
+    @Value("${google.apiKey}")
+    private String googleApiKey;
+
     @Bean
     public Flickr flickr() {
         return new Flickr(flickrApiKey, secret, new REST());
+    }
+
+    @Bean
+    public GoogleGeocodingClient geocodingClient() {
+        return new GoogleGeocodingClient(googleApiKey);
     }
 }

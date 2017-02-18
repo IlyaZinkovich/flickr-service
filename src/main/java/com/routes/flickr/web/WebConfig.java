@@ -1,4 +1,4 @@
-package com.routes.flickr.tasks;
+package com.routes.flickr.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -9,22 +9,22 @@ import org.springframework.context.annotation.Configuration;
 import static org.zeromq.ZMQ.*;
 
 @Configuration
-public class MessagingConfig {
+public class WebConfig {
 
     @Value("${zeromq.topic.findRoutes.address}")
     private String findRoutesTasksTopicAddress;
 
-    @Value("${zeromq.topic.saveRoutes.address}")
-    private String saveRoutesTasksTopicAddress;
-
     @Value("${zeromq.topic.findRoutes.ioThreads}")
     private int findRoutesSubscriberIoThreads;
 
-    @Value("${zeromq.topic.saveRoutes.ioThreads}")
-    private int saveRoutesSubscriberIoThreads;
-
     @Value("${zeromq.topic.findRoutes.envelope}")
     private String findRoutesTaskEnvelope;
+
+    @Value("${zeromq.topic.saveRoutes.address}")
+    private String saveRoutesTasksTopicAddress;
+
+    @Value("${zeromq.topic.saveRoutes.ioThreads}")
+    private int saveRoutesSubscriberIoThreads;
 
     @Bean(destroyMethod = "term")
     public Context findRoutesTasksTopicContext() {
