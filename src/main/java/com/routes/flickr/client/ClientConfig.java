@@ -2,7 +2,7 @@ package com.routes.flickr.client;
 
 import com.flickr4java.flickr.Flickr;
 import com.flickr4java.flickr.REST;
-import com.routes.geolocation.client.GoogleGeocodingClient;
+import com.routes.geolocation.provider.GeolocationProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class ClientConfig {
     }
 
     @Bean
-    public GoogleGeocodingClient geocodingClient() {
-        return new GoogleGeocodingClient(googleApiKey);
+    public GeolocationProvider geolocationProvider() {
+        return new GeolocationProvider(googleApiKey);
     }
 }
